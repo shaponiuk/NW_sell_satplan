@@ -1,0 +1,52 @@
+Wdrożenie produktu
+
+Pomysł produktu
+Analiza rynku
+Analiza własnych możliwości
+Plan wytwarzania produktu
+uruchomienie handlowców, marketing (równolegle albo tylko jedno, albo 0) (wybór mocne, czy silne)
+Sprzedaż
+
+~Pomysł produktu - (usługa / produkt) x dziedzina
+
+~Analiza rynku
+
+dziedziny, na które jest chętny
+
+rynek chętny na usługę -> przyjmie słaby lub mocny marketing, chyba, że jest produkt związany z ich dziedziną, to przyjmą wtedy mocnych handlowców
+rynek chętny na produkt -> przyjmie dowolnych handlowców, chyba, że jest usługa związana z ich dziedziną, to przyjmą wtedy mocny marketing
+
+~Analiza własnych możliwości
+
+czy możemy wypuścić marketing/handlowców, jakich
+
+none/none
+none/sh
+none/mh
+sm/none
+sm/sh
+sm/mh
+mm/none
+mm/sh
+mm/mh
+
+~Plan wytwarzania produktu (odnośnie już wybranego produktu)
+
+Wytworzenie, czy możemy sobie pozwolić na wytworzenie danego produktu (usługa/produkt x dziedzina)
+
+~Marketing (musi się zgadzać wybrana usługa)
+
+wypuszczenie odpowiedniego marketingu
+
+(s/m, dziedzina)
+
+~Uruchomienie handlowców (musi się zgadzać wybrany produkt)
+
+(s/m, dziedzina)
+
+~Sprzedaż, musi się zgadzać rynek, produkt i marketing
+
+
+
+stan początkowy - none
+stan końcowy - sprzedaż
