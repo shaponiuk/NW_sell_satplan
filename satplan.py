@@ -208,6 +208,21 @@ def add_rules_for_marketing_and_traders_tuples(g, timestamp):
     add_rules_for_marketing_tuples(g, timestamp)
     add_rules_for_traders_tuples(g, timestamp)
 
+def add_rules_for_weak_marketing(g, timestamp):
+    for i in range(timestamp):
+        
+
+def add_rules_for_marketing(g, timestamp):
+    add_rules_for_weak_marketing(g, timestamp)
+    add_rules_for_strong_marketing(g, timestamp)
+    add_rules_for_marketing_area(g, timestamp)
+
+def add_rules_for_traders(g, timestamp):
+
+def add_rules_for_marketing_and_traders(g, timestamp):
+    add_rules_for_marketing(g, timestamp)
+    add_rules_for_traders(g, timestamp)
+
 for i in range(1):
     name_dict = {}
     var_dict = {}
@@ -217,6 +232,7 @@ for i in range(1):
     add_sold_clause(g)
     add_rules_for_sold(g, i + 1)
     add_rules_for_marketing_and_traders_tuples(g, i + 1)
+    add_rules_for_marketing_and_traders(g, i + 1)
 
     s = g.solve()
     m = g.get_model()
