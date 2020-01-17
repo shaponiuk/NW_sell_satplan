@@ -209,8 +209,10 @@ def add_rules_for_marketing_and_traders_tuples(g, timestamp):
     add_rules_for_traders_tuples(g, timestamp)
 
 def add_rules_for_weak_marketing(g, timestamp):
+    global counter, name_dict, var_dict
+
     for i in range(timestamp):
-        
+        clause_list = [-var_dict["weak marketing, timestamp %d" %(i)], counter]
 
 def add_rules_for_marketing(g, timestamp):
     add_rules_for_weak_marketing(g, timestamp)
