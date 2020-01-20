@@ -36,15 +36,16 @@ def add_rules_for_sold(g, desiredTimestamp):
     if desiredTimestamp == 1:
         g.add_clause([-register_var_if_unregistered("sold")])
 
+    clause_list = [-var_dict["sold"]]
+
     for i in range(desiredTimestamp):
         if i == 0:
             continue
 
-        clause_list = [-var_dict["sold"],
-                       register_var_if_unregistered("weak marketing, service market, timestamp %d" % (i)),
-                       register_var_if_unregistered("strong marketing, service market, timestamp %d" % (i)),
-                       register_var_if_unregistered("weak traders, product market, timestamp %d" % (i)),
-                       register_var_if_unregistered("strong traders, product market, timestamp %d" % (i))]
+        clause_list.append(register_var_if_unregistered("weak marketing, service market, timestamp %d" % (i)))
+        clause_list.append(register_var_if_unregistered("strong marketing, service market, timestamp %d" % (i)))
+        clause_list.append(register_var_if_unregistered("weak traders, product market, timestamp %d" % (i)))
+        clause_list.append(register_var_if_unregistered("strong traders, product market, timestamp %d" % (i)))
 
         for j in range(3):
             clause_list.append(register_var_if_unregistered(
@@ -52,7 +53,7 @@ def add_rules_for_sold(g, desiredTimestamp):
             clause_list.append(register_var_if_unregistered(
                 "strong traders, service market, trading area %d, market area %d, timestamp %d" % (j, j, i)))
 
-        g.add_clause(clause_list)
+    g.add_clause(clause_list)
 
 
 def add_rules_for_weak_marketing_tuples(g, timestamp):
@@ -77,7 +78,8 @@ def add_rules_for_strong_marketing_tuples(g, timestamp):
     g.add_clause([-register_var_if_unregistered("strong marketing, service market, timestamp 1")])
 
     for k in range(3):
-        g.add_clause([-register_var_if_unregistered("strong marketing, product market, marketing area %d, market area %d, timestamp 1" % (k, k))])
+        g.add_clause([-register_var_if_unregistered(
+            "strong marketing, product market, marketing area %d, market area %d, timestamp 1" % (k, k))])
 
     for i in range(timestamp):
         if i == 0:
@@ -133,7 +135,8 @@ def add_rules_for_strong_traders_tuples(g, timestamp):
     g.add_clause([-register_var_if_unregistered("strong traders, product market, timestamp 1")])
 
     for k in range(3):
-        g.add_clause([-register_var_if_unregistered("strong traders, service market, trading area %d, market area %d, timestamp 1" %(k, k))])
+        g.add_clause([-register_var_if_unregistered(
+            "strong traders, service market, trading area %d, market area %d, timestamp 1" % (k, k))])
 
     for i in range(timestamp):
         if i == 0:
@@ -180,30 +183,36 @@ def add_rules_for_weak_marketing(g, timestamp):
         if i == 0:
             continue
 
+        clause_list = [-register_var_if_unregistered("weak marketing, timestamp %d" % i)]
+
         for j in range(i):
             if j == 0:
                 continue
 
-            g.add_clause([-register_var_if_unregistered("weak marketing, timestamp %d" % i),
-                          register_var_if_unregistered("analysed, able to do weak marketing, timestamp %d" % j)])
+            clause_list.append(register_var_if_unregistered("analysed, able to do weak marketing, timestamp %d" % j))
+
+        g.add_clause(clause_list)
 
 
 def add_rules_for_strong_marketing(g, timestamp):
     g.add_clause([-register_var_if_unregistered("strong marketing, timestamp 1")])
 
+    if timestamp == 1:
+        g.add_clause([-register_var_if_unregistered("strong marketing, timestamp 1")])
+
     for i in range(timestamp):
         if i == 0:
             continue
 
-        if timestamp == 1:
-            g.add_clause([-register_var_if_unregistered("strong marketing, timestamp 1")])
+        clause_list = [-register_var_if_unregistered("strong marketing, timestamp %d" % (i))]
 
         for j in range(i):
             if j == 0:
                 continue
 
-            g.add_clause([-register_var_if_unregistered("strong marketing, timestamp %d" % (i)),
-                          register_var_if_unregistered("analysed, able to do strong marketing, timestamp %d" % j)])
+            clause_list.append(register_var_if_unregistered("analysed, able to do strong marketing, timestamp %d" % j))
+
+        g.add_clause(clause_list)
 
 
 def add_rules_for_marketing_area(g, timestamp):
@@ -213,13 +222,16 @@ def add_rules_for_marketing_area(g, timestamp):
         if i == 0:
             continue
 
+        clause_list = [-register_var_if_unregistered("marketing area, timestamp %d" % i)]
+
         for j in range(i):
             if j == 0:
                 continue
 
-            g.add_clause([-register_var_if_unregistered("marketing area, timestamp %d" % i),
-                          register_var_if_unregistered("chosen service area, timestamp %d" % j),
-                          register_var_if_unregistered("chosen product area, timestamp %d" % j)])
+            clause_list.append(register_var_if_unregistered("chosen service area, timestamp %d" % j))
+            clause_list.append(register_var_if_unregistered("chosen product area, timestamp %d" % j))
+
+        g.add_clause(clause_list)
 
 
 def add_rules_for_marketing(g, timestamp):
@@ -235,52 +247,53 @@ def add_rules_for_weak_traders(g, timestamp):
         if i == 0:
             continue
 
-        for j in range(i):
-            if j == 0:
-                continue
-
-            g.add_clause([-register_var_if_unregistered("weak traders, timestamp %d" % (i)),
-                          register_var_if_unregistered("analysed, able to do weak traders, timestamp %d" % j)])
-
-
-def add_rules_for_strong_traders(g, timestamp):
-    g.add_clause([-register_var_if_unregistered("strong traders, timestamp 1")])
-
-    for i in range(timestamp):
-        if i == 0:
-            continue
+        clause_list = [-register_var_if_unregistered("weak traders, timestamp %d" % (i))]
 
         for j in range(i):
             if j == 0:
                 continue
 
-            g.add_clause([-register_var_if_unregistered("strong traders, timestamp %d" % (i)),
-                          register_var_if_unregistered("analysed, able to do strong traders, timestamp %d" % j)])
+            clause_list.append(register_var_if_unregistered("analysed, able to do weak traders, timestamp %d" % j))
 
 
-def add_rules_for_trading_area(g, timestamp):
-    for i in range(timestamp):
-        if i == 0:
-            continue
+# def add_rules_for_strong_traders(g, timestamp):
+#     g.add_clause([-register_var_if_unregistered("strong traders, timestamp 1")])
+#
+#     for i in range(timestamp):
+#         if i == 0:
+#             continue
+#
+#         for j in range(i):
+#             if j == 0:
+#                 continue
+#
+#             g.add_clause([-register_var_if_unregistered("strong traders, timestamp %d" % (i)),
+#                           register_var_if_unregistered("analysed, able to do strong traders, timestamp %d" % j)])
 
-        for j in range(i):
-            if j == 0:
-                continue
 
-            g.add_clause([-register_var_if_unregistered("marketing area, timestamp %d" % i),
-                          register_var_if_unregistered("chosen service area, timestamp %d" % j),
-                          register_var_if_unregistered("chosen product area, timestamp %d" % j)])
+# def add_rules_for_trading_area(g, timestamp):
+#     for i in range(timestamp):
+#         if i == 0:
+#             continue
+#
+#         for j in range(i):
+#             if j == 0:
+#                 continue
+#
+#             g.add_clause([-register_var_if_unregistered("marketing area, timestamp %d" % i),
+#                           register_var_if_unregistered("chosen service area, timestamp %d" % j),
+#                           register_var_if_unregistered("chosen product area, timestamp %d" % j)])
 
 
-def add_rules_for_traders(g, timestamp):
-    add_rules_for_weak_traders(g, timestamp)
-    add_rules_for_strong_traders(g, timestamp)
-    add_rules_for_trading_area(g, timestamp)
+# def add_rules_for_traders(g, timestamp):
+#     add_rules_for_weak_traders(g, timestamp)
+#     add_rules_for_strong_traders(g, timestamp)
+#     add_rules_for_trading_area(g, timestamp)
 
 
 def add_rules_for_marketing_and_traders(g, timestamp):
     add_rules_for_marketing(g, timestamp)
-    add_rules_for_traders(g, timestamp)
+    # add_rules_for_traders(g, timestamp)
 
 
 def add_rules_for_self_marketing_capability_analysis(g, timestamp):
@@ -324,7 +337,7 @@ def add_rules_for_self_marketing_traders_capability_analysis(g, timestamp):
     add_rules_for_self_traders_capability_analysis(g, timestamp)
 
 
-for idx in range(2):
+for idx in range(3):
     i = idx + 1
     name_dict = {}
     var_dict = {}
